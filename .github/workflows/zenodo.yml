@@ -1,0 +1,20 @@
+name: Publish to Zenodo
+on:
+  release:
+    types: [published]
+jobs:
+  zenodo:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install zenodo-client
+      - id: version
+        run: echo "version=${GITHUB_REF#refs/tags/v}}" >> $GITHUB_OUTPUT
+      - run: zenodo deposit create --title "AgentGuard" --upload-type software --access-right open --license Apache-2.0 --version "${{ steps.version.outputs.version }}" --output zenodo_deposit.json
+      - run: zenodo deposit upload $(jq -r '.id' zenodo_deposit.json) --files LICENSE README.md .zenodo.json
+      - run: zenodo deposit publish $(jq -r '.id' zenodo_deposit.json)
