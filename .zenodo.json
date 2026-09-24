@@ -1,1 +1,30 @@
-{"title":"AgentGuard","upload_type":"software","creators":[{"name":"Perla, Emir","affiliation":"We Do Care Global","orcid":"0009-0009-8515-2727"}],"access_right":"open","license":"Apache-2.0","version":"0.1.0","publication_date":"2026-09-24"}
+{
+  "title": "Enterprise Hybrid-RAG – Production Retrieval-Augmented Generation with NVIDIA NeMo",
+  "upload_type": "software",
+  "description": "Production RAG with NVIDIA NeMo retrieval, hybrid dense/lexical search, reranking, and evaluation layer.",
+  "creators": [
+    {
+      "name": "Perla, Emir",
+      "affiliation": "We Do Care Global",
+      "orcid": "0009-0009-8515-2727"
+    }
+  ],
+  "access_right": "open",
+  "license": "Apache-2.0",
+  "keywords": [
+    "RAG",
+    "retrieval-augmented generation",
+    "NVIDIA NeMo",
+    "hybrid retrieval",
+    "evaluation"
+  ],
+  "related_identifiers": [
+    {
+      "identifier": "https://github.com/we-do-care-global/enterprise-hybrid-rag",
+      "relation": "isSupplementTo",
+      "scheme": "url"
+    }
+  ],
+  "version": "0.1.0",
+  "publication_date": "2026-09-24"
+}

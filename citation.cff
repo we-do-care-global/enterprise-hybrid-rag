@@ -1,6 +1,7 @@
 cff-version: 1.2.0
-title: "AgentGuard"
-message: >- If you use this software, please cite it.
+title: "Enterprise Hybrid-RAG – Production Retrieval-Augmented Generation with NVIDIA NeMo"
+message: >-
+  If you use this software, please cite it as below.
 authors:
   - family-names: "Perla"
     given-names: "Emir"
@@ -12,6 +13,9 @@ date-released: 2026-09-24
 url: "https://github.com/we-do-care-global/enterprise-hybrid-rag"
 license: "Apache-2.0"
 keywords:
-  - "AI agents"
-  - "guardrails"
+  - "RAG"
+  - "retrieval-augmented generation"
+  - "NVIDIA NeMo"
+  - "hybrid retrieval"
+  - "evaluation"
 repository-code: "https://github.com/we-do-care-global/enterprise-hybrid-rag"
