@@ -1,11 +1,17 @@
 cff-version: 1.2.0
-title: "AgentGuard – Security & Governance Control Plane"
+title: "AgentGuard"
 message: >- If you use this software, please cite it.
 authors:
   - family-names: "Perla"
     given-names: "Emir"
-    orcid: "https://orcid.org/0000-0002-1825-0097"
+    orcid: "https://orcid.org/0009-0009-8515-2727"
+    affiliation: "We Do Care Global"
+    email: "emirperla46@gmail.com"
 version: "0.1.0"
 date-released: 2026-09-24
 url: "https://github.com/we-do-care-global/enterprise-hybrid-rag"
 license: "Apache-2.0"
+keywords:
+  - "AI agents"
+  - "guardrails"
+repository-code: "https://github.com/we-do-care-global/enterprise-hybrid-rag"
