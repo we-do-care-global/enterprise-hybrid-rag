@@ -1,5 +1,5 @@
 {
-  "title": "Enterprise Hybrid-RAG – Production Retrieval-Augmented Generation with NVIDIA NeMo",
+  "title": "Enterprise Hybrid-RAG \u2013 Production Retrieval-Augmented Generation with NVIDIA NeMo",
   "upload_type": "software",
   "description": "Production RAG with NVIDIA NeMo retrieval, hybrid dense/lexical search, reranking, and evaluation layer.",
   "creators": [
@@ -25,6 +25,6 @@
       "scheme": "url"
     }
   ],
-  "version": "0.1.0",
-  "publication_date": "2026-09-24"
+  "version": "0.1.1",
+  "publication_date": "2026-09-26"
 }
