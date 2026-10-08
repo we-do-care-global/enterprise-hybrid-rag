@@ -8,9 +8,11 @@ name: Zenodo publishing
 # Requires a repository secret: ZENODO_TOKEN (Zenodo personal access token with
 # deposit:write and deposit:actions scopes). Never commit the token or the OAuth
 # client secret — they live only in GitHub Actions secrets.
+# NOTE: `release: types: [published]` intentionally disabled — it fired on every
+# release created during the org->account migration and failed on a missing
+# ZENODO_TOKEN. Re-enable only when the token is configured.
+# See: docs/ZENODO_TRIGGER.md
 on:
-  release:
-    types: [published]
   workflow_dispatch:
     inputs:
       tag:
