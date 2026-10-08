@@ -2,7 +2,7 @@
 # Multi-stage build for smaller production image
 
 # Stage 1: Build dependencies
-FROM python:3.11-slim@sha256:a8c5e5b8c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5 AS builder
+FROM python:3.11-slim@sha256:0dd364ba7e10242f07755449e3a3d0e35f9efd987952737b90def6709ab0c5ce AS builder
 
 WORKDIR /app
 
@@ -18,7 +18,7 @@ COPY requirements.txt requirements.lock ./
 RUN pip install --no-cache-dir --break-system-packages -r requirements.lock
 
 # Stage 2: Production
-FROM python:3.11-slim@sha256:a8c5e5b8c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5 AS production
+FROM python:3.11-slim@sha256:0dd364ba7e10242f07755449e3a3d0e35f9efd987952737b90def6709ab0c5ce AS production
 
 WORKDIR /app
 

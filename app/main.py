@@ -12,15 +12,12 @@ from typing import AsyncGenerator, Optional
 from fastapi import FastAPI, HTTPException, Query, Response, Request
 from fastapi.responses import StreamingResponse
 from pydantic import BaseModel, Field
-from prometheus_client import Counter, Histogram, generate_latest, CONTENT_TYPE_LATEST
-from prometheus_client import CollectorRegistry, REGISTRY
+from prometheus_client import CONTENT_TYPE_LATEST, Counter, Histogram, generate_latest
 
 from app.retriever import EnterpriseHybridRetriever
 
 
 # Prometheus metrics
-from prometheus_client import REGISTRY
-
 REQUEST_COUNT = Counter("http_requests_total", "Total HTTP requests", ["method", "endpoint", "status"])
 REQUEST_LATENCY = Histogram("http_request_duration_seconds", "HTTP request latency", ["method", "endpoint"])
 QUERY_COUNT = Counter("rag_queries_total", "Total RAG queries", ["type", "status"])

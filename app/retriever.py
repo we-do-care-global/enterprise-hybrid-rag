@@ -9,13 +9,12 @@ where k=60 by default, M is the set of ranking methods,
 and r_m(d) is the rank of document d in method m.
 """
 
-import math
 from typing import Any, Dict, List, Optional, Tuple
 from pydantic import BaseModel, Field
 
 import rank_bm25
 from qdrant_client import QdrantClient
-from qdrant_client.models import Filter, SearchParams
+from qdrant_client.models import SearchParams
 
 
 # ---------------------------------------------------------------------------
@@ -127,7 +126,6 @@ class EnterpriseHybridRetriever:
             RetrievalResult with BM25 scores
         """
         import time
-        from rank_bm25 import BM25Okapi
 
         if self.bm25_index is None:
             return RetrievalResult(
