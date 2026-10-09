@@ -6,9 +6,8 @@ Loads test_dataset.json, runs Ragas benchmarks, and asserts:
 - answer_relevancy >= 0.95
 """
 
-import json
 import sys
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
 
 import datasets
 from pydantic import BaseModel, Field
@@ -159,7 +158,7 @@ def run_ragas_evaluation(
     dataset = custom_dataset or TEST_DATASET
 
     print(f"\n{'='*60}")
-    print(f"RAGAS EVALUATION")
+    print("RAGAS EVALUATION")
     print(f"{'='*60}")
     print(f"Dataset: {dataset.description}")
     print(f"Samples: {len(dataset.samples)}")
@@ -187,12 +186,10 @@ def run_ragas_evaluation(
 
     try:
         # Try to use Ragas
-        import ragas
-        from ragas import Dataset as RagasDataset
         from ragas.metrics import faithfulness, answer_relevancy
         from ragas.evaluation import evaluate
 
-        # Create Ragas dataset
+        # Create Ragas-compatible dataset
         ragas_dataset = datasets.Dataset.from_dict(hf_data)
 
         # Run evaluation
@@ -205,7 +202,7 @@ def run_ragas_evaluation(
         faithfulness_score = results["faithfulness"]
         answer_relevancy_score = results["answer_relevancy"]
 
-        print(f"\nResults:")
+        print("\nResults:")
         print(f"  Faithfulness:       {faithfulness_score:.4f} (target: >={min_faithfulness})")
         print(f"  Answer Relevancy:   {answer_relevancy_score:.4f} (target: >={min_answer_relevancy})")
 
@@ -213,7 +210,7 @@ def run_ragas_evaluation(
         faithfulness_pass = faithfulness_score >= min_faithfulness
         relevancy_pass = answer_relevancy_score >= min_answer_relevancy
 
-        print(f"\nAssertions:")
+        print("\nAssertions:")
         print(f"  Faithfulness >= {min_faithfulness}: {'PASS' if faithfulness_pass else 'FAIL'}")
         print(f"  Answer Relevancy >= {min_answer_relevancy}: {'PASS' if relevancy_pass else 'FAIL'}")
 
@@ -243,7 +240,7 @@ def run_ragas_evaluation(
         relevancy_pass = mock_relevancy >= min_answer_relevancy
         passed = faithfulness_pass and relevancy_pass
 
-        print(f"\nMock Results:")
+        print("\nMock Results:")
         print(f"  Faithfulness:       {mock_faithfulness:.4f} (target: >={min_faithfulness}) {'PASS' if faithfulness_pass else 'FAIL'}")
         print(f"  Answer Relevancy:   {mock_relevancy:.4f} (target: >={min_answer_relevancy}) {'PASS' if relevancy_pass else 'FAIL'}")
 
