@@ -195,7 +195,7 @@ class EnterpriseHybridRetriever:
 
         # Search Qdrant
         try:
-            results = self.qdrant_client.search(
+            results = self.qdrant_client.search(  # type: ignore[attr-defined]
                 collection_name=self.qdrant_collection,
                 query_vector=query_vector,
                 limit=top_k,
@@ -205,11 +205,12 @@ class EnterpriseHybridRetriever:
             documents = []
             scores = []
             for hit in results:
+                payload = hit.payload or {}
                 documents.append({
                     "id": hit.id,
-                    "text": hit.payload.get("text", ""),
+                    "text": payload.get("text", ""),
                     "source": "vector",
-                    "metadata": hit.payload.get("metadata", {}),
+                    "metadata": payload.get("metadata", {}),
                 })
                 scores.append(hit.score)
 
@@ -248,13 +249,13 @@ class EnterpriseHybridRetriever:
 
         # Build rank dictionaries
         bm25_ranks: Dict[int, int] = {}
-        for rank, doc in enumerate(bm25_result.documents):
-            doc_id = doc.get("id", rank)
+        for rank, d in enumerate(bm25_result.documents):
+            doc_id = d.get("id", rank)
             bm25_ranks[doc_id] = rank + 1  # 1-indexed ranks
 
         vector_ranks: Dict[int, int] = {}
-        for rank, doc in enumerate(vector_result.documents):
-            doc_id = doc.get("id", rank)
+        for rank, d in enumerate(vector_result.documents):
+            doc_id = d.get("id", rank)
             vector_ranks[doc_id] = rank + 1
 
         # Union of all document IDs
@@ -280,19 +281,19 @@ class EnterpriseHybridRetriever:
         scores = []
         for doc_id, score in sorted_docs:
             # Find document from either source
-            doc = None
+            selected_doc: Optional[Dict[str, Any]] = None
             for d in bm25_result.documents:
                 if d.get("id") == doc_id:
-                    doc = d
+                    selected_doc = d
                     break
-            if doc is None:
+            if selected_doc is None:
                 for d in vector_result.documents:
                     if d.get("id") == doc_id:
-                        doc = d
+                        selected_doc = d
                         break
 
-            if doc:
-                doc_copy = dict(doc)
+            if selected_doc is not None:
+                doc_copy = dict(selected_doc)
                 doc_copy["fused_score"] = round(score, 6)
                 documents.append(doc_copy)
                 scores.append(score)
@@ -343,7 +344,7 @@ class EnterpriseHybridRetriever:
         """Check health of both retrieval backends."""
         import time
 
-        result = {
+        result: Dict[str, Any] = {
             "bm25": {
                 "indexed_documents": len(self.bm25_corpus),
                 "status": "ready" if self.bm25_index else "not_indexed",
@@ -360,18 +361,7 @@ class EnterpriseHybridRetriever:
         if self.bm25_index:
             result["bm25"]["status"] = "ready"
 
-        # Check Qdrant
-        try:
-            start = time.time()
-            collections = self.qdrant_client.get_collections()
-            elapsed = (time.time() - start) * 1000
-            result["qdrant"]["status"] = "connected"
-            result["qdrant"]["response_time_ms"] = round(elapsed, 2)
-            result["qdrant"]["collections"] = [c.name for c in collections.collections]
-        except Exception as e:
-            result["qdrant"]["status"] = f"error: {str(e)}"
-
-        # Overall status
+        # Check Qdrant        qdrant_status: str = "unknown"        qdrant_response_ms: float = 0.0        collections_list: List[str] = []        try:            start = time.time()            collections_result = self.qdrant_client.get_collections()            elapsed = (time.time() - start) * 1000            qdrant_status = "connected"            qdrant_response_ms = round(elapsed, 2)            if collections_result and collections_result.collections:                collections_list = [c.name for c in collections_result.collections]        except Exception as e:            qdrant_status = f"error: {str(e)}"        result["qdrant"]["status"] = qdrant_status        result["qdrant"]["response_time_ms"] = qdrant_response_ms        result["qdrant"]["collections"] = collections_list        # Overall status
         bm25_ok = result["bm25"]["status"] == "ready"
         qdrant_ok = result["qdrant"]["status"] == "connected"
 
