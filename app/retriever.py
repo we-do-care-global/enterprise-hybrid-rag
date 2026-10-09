@@ -342,8 +342,6 @@ class EnterpriseHybridRetriever:
 
     def health_check(self) -> Dict[str, Any]:
         """Check health of both retrieval backends."""
-        import time
-
         result: Dict[str, Any] = {
             "bm25": {
                 "indexed_documents": len(self.bm25_corpus),
