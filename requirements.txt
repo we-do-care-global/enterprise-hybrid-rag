@@ -2,6 +2,6 @@ fastapi>=0.142.2
 uvicorn>=0.54.0
 rank-bm25>=0.2.2
 qdrant-client>=1.19.1
-ragas>=0.1.7
+ragas>=0.4.3
 datasets>=5.1.0
 pydantic>=2.13.5
