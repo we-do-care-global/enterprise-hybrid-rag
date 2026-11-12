@@ -28,17 +28,17 @@ jobs:
       - name: Typecheck
         run: mypy app/ eval/ --ignore-missing-imports
       - name: Security scan (bandit)
-        run: bandit -r app/ eval/ -f json -o bandit-report.json || true
+        run: bandit -r app/ eval/ -f json -o bandit-report.json
       - name: Security scan (safety)
-        run: safety check --json --output safety-report.json || true
+        run: pip install --break-system-packages safety==2.4.1 && safety check --json --output safety-report.json
       - name: Test with coverage
-        run: python -m pytest -v --cov=app --cov=eval --cov-report=xml --cov-fail-under=80 || echo "Tests need coverage"
+        run: python -m pytest -v --cov=app --cov=eval --cov-report=xml --cov-fail-under=80
 
   security:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
-      - uses: aquasecurity/trivy-action@master
+      - uses: aquasecurity/trivy-action@38b337fff0a2f984d5be173c99e3f633438167ec
         with:
           scan-type: fs
           scan-ref: .
